@@ -1,6 +1,6 @@
 package org.hillel.web.controller;
 
-import org.apache.commons.io.IOUtils;
+//import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +25,7 @@ public class DownloadController {
         InputStream inputStream = new FileInputStream(file);
         response.setContentType("application/force-download");
         response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-        IOUtils.copy(inputStream, response.getOutputStream());
+//        IOUtils.copy(inputStream, response.getOutputStream());
         response.flushBuffer();
         inputStream.close();
     }

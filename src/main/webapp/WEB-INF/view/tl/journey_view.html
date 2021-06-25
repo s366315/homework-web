@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Vehicle</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container my-5">
+
+    <h2>Просмотр маршрута</h2>
+
+    <table class="table table-striped table-responsive-md col-md-6">
+        <tbody>
+        <tr>
+            <td>Id</td><td th:text="${journey.id}"></td>
+        </tr>
+        <tr>
+            <td>Станция отправления</td><td th:text="${journey.stationFrom}"></td>
+        </tr>
+        <tr>
+            <td>Станция прибытия</td><td th:text="${journey.stationTo}"></td>
+        </tr>
+        <tr>
+            <td>Время отправления</td><td th:text="${journey.dateFrom}"></td>
+        </tr>
+        <tr>
+            <td>Время прибытия</td><td th:text="${journey.dateTo}"></td>
+        </tr>
+        <tr>
+            <td>Направление</td><td th:text="${journey.direction}"></td>
+        </tr>
+        <tr>
+            <td>Дата создания</td><td th:text="${journey.createDate}"></td>
+        </tr>
+        <tr>
+            <td>Название транспортного средства</td><td th:text="${journey.vehicleName}"></td>
+        </tr>
+        <tr>
+            <td>Кол-во остановок</td><td th:text="${journey.stopsCount}"></td>
+        </tr>
+
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

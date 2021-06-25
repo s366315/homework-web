@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Vehicle</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container my-5">
+
+    <h2>Просмотр транспортного средства</h2>
+
+    <table class="table table-striped table-responsive-md col-md-6">
+        <tbody>
+        <tr>
+            <td>Id</td><td th:text="${vehicle.id}"></td>
+        </tr>
+        <tr>
+            <td>Название</td><td th:text="${vehicle.name}"></td>
+        </tr>
+        <tr>
+            <td>Дата создания</td><td th:text="${vehicle.createDate}"></td>
+        </tr>
+        <tr>
+            <td>Кол-во маршрутов</td><td th:text="${vehicle.journeyCount}"></td>
+        </tr>
+        <tr>
+            <td>Кол-во свободных мест</td><td th:text="${vehicle.freeSeats}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

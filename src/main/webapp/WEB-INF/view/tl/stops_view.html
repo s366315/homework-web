@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Vehicle</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container my-5">
+
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link" href="/welcome">Welcome</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/tl/journeys">Маршруты</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/tl/vehicles">Транспортные ср-ва</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="/tl/stops">Остановки</a>
+        </li>
+    </ul>
+
+    <h2>Список остановок</h2>
+
+    <form action="#" method="post" th:action="@{/tl/stops/search}" th:object="${searchParams}">
+        <fieldset>
+            <legend>Параметры запроса</legend>
+            <div>
+                <label for="pageNumber">Номер страницы: </label>
+                <input th:name="pageNumber" id="pageNumber" th:value="${searchParams.pageNumber}" type="number">
+            </div>
+            <div>
+                <label for="pageSize">Кол-во элементов на странице: </label>
+                <input th:name="pageSize" id="pageSize" th:value="${searchParams.pageSize}" type="number">
+            </div>
+            <div>
+                <label for="filterKey">Фильтр по полю: </label>
+                <select th:field="${searchParams.filterKey}"  id="filterKey">
+                    <option value="">Нет</option>
+                    <option value="NAME">Наименование</option>
+                    <option value="CREATE_DATE">Дата создания (например: 2021-04-27)</option>
+                </select>
+            </div>
+            <div>
+                <label for="filterValue">Значение для фильтра: </label>
+                <input th:name="filterValue" id="filterValue" th:value="${searchParams.filterValue}">
+            </div>
+            <div>
+                <label for="orderFieldName">Сортировка по полю: </label>
+                <select th:field="${searchParams.orderFieldName}"  id="orderFieldName">
+                    <option value="">Нет</option>
+                    <option value="id">ID</option>
+                    <option value="commonInfo.name">Наименование</option>
+                    <option value="active">Признак активности</option>
+                    <option value="createDate">Дата создания</option>
+                </select>
+            </div>
+            <div>
+                <label for="orderAsc">Сортировка по возрастанию: </label>
+                <input th:checked="${searchParams.orderAsc}" th:name="orderAsc" id="orderAsc" type="checkbox">
+            </div>
+            <input type="submit" th:value="Поиск">
+        </fieldset>
+    </form>
+
+    <table class="table table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <td>Порядковый номер</td>
+            <td>Id</td>
+            <td>Наименование</td>
+            <td>Активность</td>
+            <td>Дата создания</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody class="text-nowrap">
+        <tr th:each="stop, iterator: ${stops}">
+            <td th:text="${iterator.index+1}"></td>
+            <td th:text="${stop.id}"></td>
+            <td th:text="${stop.name}"></td>
+            <td th:text="${stop.active}"></td>
+            <td th:text="${stop.createDate}"></td>
+            <td><a th:href="@{/tl/stop/view/{stopId}(stopId=${stop.id})}">Просмотр</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

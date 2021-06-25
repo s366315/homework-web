@@ -1,31 +1,42 @@
 package org.hillel.web;
 
-import org.hillel.web.config.WebConfig;
+import org.hillel.web.config.JspConfig;
+import org.hillel.web.config.RootConfig;
+import org.hillel.web.config.TlConfig;
+import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import org.springframework.web.servlet.DispatcherServlet;
 
-import javax.servlet.Filter;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 import java.nio.charset.StandardCharsets;
 
-public class Application extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class Application implements WebApplicationInitializer {
 
-    @Override
-    protected Class<?>[] getRootConfigClasses() {
-        return null;
-    }
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        AnnotationConfigWebApplicationContext rootConfig = new AnnotationConfigWebApplicationContext();
+        rootConfig.register(RootConfig.class);
+        servletContext.addListener(new ContextLoaderListener(rootConfig));
 
-    @Override
-    protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{WebConfig.class};
-    }
+        AnnotationConfigWebApplicationContext jspAppContext = new AnnotationConfigWebApplicationContext();
+        jspAppContext.register(JspConfig.class);
 
-    @Override
-    protected String[] getServletMappings() {
-        return new String[]{"/"};
-    }
+        ServletRegistration.Dynamic jspServlet =
+                servletContext.addServlet("jspServlet", new DispatcherServlet(jspAppContext));
+        jspServlet.addMapping("/welcome");
 
-    @Override
-    protected Filter[] getServletFilters() {
-        return new Filter[]{new CharacterEncodingFilter(StandardCharsets.UTF_8.displayName())};
+        AnnotationConfigWebApplicationContext tlAppContext = new AnnotationConfigWebApplicationContext();
+        tlAppContext.register(TlConfig.class);
+
+        ServletRegistration.Dynamic tlServlet =
+                servletContext.addServlet("tlServlet", new DispatcherServlet(tlAppContext));
+        tlServlet.addMapping("/tl/*");
+
+        FilterRegistration.Dynamic charsetFilter = servletContext.addFilter("charsetFilter", new CharacterEncodingFilter(StandardCharsets.UTF_8.displayName()));
+        charsetFilter.addMappingForUrlPatterns(null, true, "/*");
     }
 }

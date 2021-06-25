@@ -1,7 +1,5 @@
 package org.hillel.web.controller;
 
-import org.hillel.web.Application;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,21 +16,21 @@ public class WelcomeController {
 
     @GetMapping("/welcome")
     public String welcomePage() {
-        return "welcome";
+        return "jsp/welcome";
     }
 
     @GetMapping("/")
     public String welcomePageMore() {
-        return "welcome";
+        return "jsp/welcome";
     }
 
     @PostMapping(value = "/welcome")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) throws IOException {
-        String path = System.getProperty("java.io.tmpdir") + "\\" +file.getOriginalFilename();
+        String path = System.getProperty("java.io.tmpdir") + "\\" + file.getOriginalFilename();
 
         File newFile = new File(path);
         newFile.createNewFile();
-        FileOutputStream fos = new FileOutputStream( newFile);
+        FileOutputStream fos = new FileOutputStream(newFile);
         byte[] bytes = file.getBytes();
         fos.write(bytes);
         fos.close();
